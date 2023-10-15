@@ -1,10 +1,21 @@
 package server;
+
+import helper.json.JsonHelper;
+import protocol.request.RequisitionOperations;
+import protocol.response.LogoutResponse;
+import protocol.response.Response;
+import server.exception.ServerResponseException;
+import server.layer.inicialLayer.*;
+import server.router.Router;
+
 import java.net.*;
 import java.io.*;
 
-
 public class Server extends Thread {
-    protected Socket clientSocket;
+    private final Socket clientSocket;
+
+    private Router routes = null;
+
 
     public static void main(String[] args) throws IOException
     {
