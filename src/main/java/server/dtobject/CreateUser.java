@@ -1,4 +1,4 @@
-package server.dto;
+package server.dtobject;
 
 import lombok.Builder;
 

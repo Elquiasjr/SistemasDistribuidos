@@ -18,16 +18,11 @@ import helper.validation.ValidationHelper;
 
 
 
-
-
 public class Client {
     public static void main(String[] args) throws IOException {
 
-        String serverHostname = "127.0.0.1";
-        int port = 10008;
-
-        System.out.println ("Attemping to connect to host " +
-                serverHostname + " on port " + port + ".");
+        String serverHostname;
+        int port;
 
         Socket echoSocket = null;
         PrintWriter out = null;
@@ -36,16 +31,24 @@ public class Client {
         String token = null;
 
         try {
-            echoSocket = new Socket(serverHostname, 10008);
+            stdin = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Insira o ip do servidor: ");
+            serverHostname = stdin.readLine();
+            System.out.print("Insira a porta do servidor: ");
+            port = Integer.parseInt(stdin.readLine());
+
+            System.out.println ("Attemping to connect to host " +
+                serverHostname + " on port " + port + ".");
+            echoSocket = new Socket(serverHostname, port);
+
             out = new PrintWriter(echoSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
-            stdin = new BufferedReader(new InputStreamReader(System.in));
+
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host: " + serverHostname);
+            System.err.println("Don't know about host");
             System.exit(1);
         } catch (IOException e) {
-            System.err.println("Couldn't get I/O for "
-                    + "the connection to: " + serverHostname);
+            System.err.println("Couldn't get I/O for the connection");
             System.exit(1);
         }
 
@@ -53,7 +56,8 @@ public class Client {
             while(true) {
                 Request<?> request = requestGenerator(stdin, token);
                 String jsonRequest = JsonHelper.toJson(request);
-                System.out.println(jsonRequest);
+                out.println(jsonRequest);
+                System.out.println();
                 System.out.println("Objeto de envio criado: " + request);
                 System.out.println("Enviado: " + jsonRequest);
                 System.out.println();
@@ -67,33 +71,23 @@ public class Client {
                 Response<?> response = handleResponse(jsonResponse, request);
                 System.out.println("Objeto criado: " + response);
 
+                if(response == null){
+                    continue;
+                }
+                if (response instanceof LoginResponse) {
+                    token = ((LoginResponse) response).payload().token();
+                    System.out.println("token was set");
+                }
+                if(response instanceof LogoutResponse){
+                    break;
+                }
 
-
+                System.out.println();
             }
         } catch (IOException e){
             System.out.println("erro lendo a stdin");
         }
 
-        BufferedReader stdIn = new BufferedReader(
-                new InputStreamReader(System.in));
-        String userInput;
-
-        System.out.println ("Type Message (\"Bye.\" to quit)");
-        while ((userInput = stdIn.readLine()) != null)
-        {
-            out.println(userInput);
-
-            // end loop
-            if (userInput.equals("Bye."))
-                break;
-
-            System.out.println("echo: " + in.readLine());
-        }
-
-        out.close();
-        in.close();
-        stdIn.close();
-        echoSocket.close();
     }
 
     private static Request<?> requestGenerator(BufferedReader stdin, String token) throws IOException{
@@ -113,41 +107,14 @@ public class Client {
                     return createRequest(stdin,token, LogoutRequest.class);
                 case RequisitionOperations.ADMIN_CADASTRAR_USUARIO:
                     return createRequest(stdin,token, AdminCreateUserRequest.class);
+                case RequisitionOperations.CADASTRAR_USUARIO:
+                    return createRequest(stdin,token, CreateUserRequest.class);
             }
         }
     }
 
-    private static Response<?> handleResponse(String json, Request<?> request){
-        Response<?> response = null;
-        try{
-            Class<?> clazz = request.getClass();
-            if(clazz == LoginRequest.class){
-                response = JsonHelper.fromJson(json, LoginResponse.class);
-            }
-            if(clazz == LogoutRequest.class){
-                response = JsonHelper.fromJson(json, LogoutResponse.class);
-            }
-            if(clazz == AdminCreateUserRequest.class){
-                response = JsonHelper.fromJson(json, AdminCreateUserResponse.class);
-            }
-
-            if(response == null || response.payload() == null){
-                response = JsonHelper.fromJson(json, ErrorResponse.class);
-            }
-            ValidationHelper.validate(response);
-            return response;
-        } catch (ConstraintViolated e){
-            System.err.println("Não foi possível valida a resposta\n" + e.getMessage());
-            return response;
-        } catch (JsonSyntaxException e){
-            System.err.println("Erro no json recebido");
-        }
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> T createRequest(BufferedReader stdin, String token, Class<T> clazz) throws IOException {
-        for(Constructor<?> constructor : clazz.getConstructors()) {
+    private static <T> T createRequest(BufferedReader stdin, String token, Class<T> classType) throws IOException {
+        for(Constructor<?> constructor : classType.getConstructors()) {
             Parameter[] parameters = constructor.getParameters();
             boolean shouldSkip = false;
 
@@ -176,6 +143,8 @@ public class Client {
                 String line = stdin.readLine();
                 if(line.isBlank() || line.isEmpty()){
                     constructorArguments[i] = null;
+                }else if(parameters[i].getType() == Long.class){
+                    constructorArguments[i] = Integer.parseInt(line);
                 }else if(parameters[i].getType() == Integer.class){
                     constructorArguments[i] = Integer.parseInt(line);
                 }else if(parameters[i].getType() == Boolean.class){
@@ -184,8 +153,6 @@ public class Client {
                     constructorArguments[i] = line;
                 }
             }
-            // this casting is fine, but the compiler cant be sure because its generic type
-            // was erased up there
             try{
                 return (T) constructor.newInstance(constructorArguments);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e){
@@ -193,6 +160,37 @@ public class Client {
             }
         }
 
-        throw new RuntimeException("Unable to create a new instance of " + clazz.getName());
+        throw new RuntimeException("Unable to create a new instance of " + classType.getName());
+    }
+
+    private static Response<?> handleResponse(String json, Request<?> request){
+        Response<?> response = null;
+        try{
+            Class<?> classType = request.getClass();
+            if(classType == LoginRequest.class){
+                response = JsonHelper.fromJson(json, LoginResponse.class);
+            }
+            if(classType == LogoutRequest.class){
+                response = JsonHelper.fromJson(json, LogoutResponse.class);
+            }
+            if(classType == AdminCreateUserRequest.class){
+                response = JsonHelper.fromJson(json, AdminCreateUserResponse.class);
+            }
+            if(classType == CreateUserRequest.class){
+                response = JsonHelper.fromJson(json, CreateUserResponse.class);
+            }
+
+            if(response == null || response.payload() == null){
+                response = JsonHelper.fromJson(json, ErrorResponse.class);
+            }
+            ValidationHelper.validate(response);
+            return response;
+        } catch (ConstraintViolated e){
+            System.err.println("Não foi possível validar a resposta\n" + e.getMessage());
+            return response;
+        } catch (JsonSyntaxException e){
+            System.err.println("Erro no json recebido");
+        }
+        return null;
     }
 }

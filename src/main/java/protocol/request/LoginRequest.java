@@ -13,16 +13,16 @@ public class LoginRequest extends Request<LoginRequest.Payload>{
     @Valid
     private final Payload payload;
 
-    public LoginRequest(final String email, final String password){
+    public LoginRequest(final String email, final String senha){
         super(new Header(RequisitionOperations.LOGIN, null));
-        payload = new Payload(email, password);
+        payload = new Payload(email, senha);
     }
 
     public record Payload(
             @NotBlank(message = "email não pode estar vazio")
             @Email
             String email,
-            @NotBlank(message = "password não pode estar vazio") String password) {
+            @NotBlank(message = "senha não pode estar vazio") String senha) {
 
     }
 

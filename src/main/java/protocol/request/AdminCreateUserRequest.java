@@ -7,15 +7,18 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import protocol.request.header.Header;
+
+@Getter
 public class AdminCreateUserRequest extends Request<AdminCreateUserRequest.Payload>{
 
     @NotNull(message = "payload não pode ser nulo")
     @Valid
     private final Payload payload;
 
-    public AdminCreateUserRequest(final String token, final String nome, final String email, final String senha, final Boolean tipo){
+    public AdminCreateUserRequest(final String token, final String nome, final String email,
+                                  final String senha){
         super(new Header(RequisitionOperations.ADMIN_CADASTRAR_USUARIO, token));
-        payload = new Payload(nome, email, senha, tipo);
+        payload = new Payload(nome, email, senha, true);
     }
 
     public record Payload(

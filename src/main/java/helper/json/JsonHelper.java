@@ -6,7 +6,7 @@ public class JsonHelper {
 
     public static <T> String toJson(T object){ return gson.toJson(object);}
 
-    public static <T> T fromJson(final String json, Class<T> clazz) throws JsonSyntaxException {
-        return gson.fromJson(json, clazz);
+    public static <T> T fromJson(final String json, Class<T> classType) throws JsonSyntaxException {
+        return gson.fromJson(json, classType);
     }
 }

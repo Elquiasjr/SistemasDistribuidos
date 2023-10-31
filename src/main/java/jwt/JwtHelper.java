@@ -7,11 +7,12 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.algorithms.Algorithm;
 public class JwtHelper {
-    public static String createJWT(boolean isAdmin, int userId){
+    public static String
+    createJWT(boolean isAdmin, long userId){
         Algorithm algorithm = Algorithm.HMAC256("segredo");
         return JWT.create().withIssuer("me")
                 .withClaim("isAdmin", isAdmin)
-                .withClaim("UserId", userId)
+                .withClaim("userId", userId)
                 .sign(algorithm);
     }
 
