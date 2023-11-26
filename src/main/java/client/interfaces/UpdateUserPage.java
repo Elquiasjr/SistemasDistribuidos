@@ -26,6 +26,7 @@ public class UpdateUserPage extends JDialog{
     public UpdateUserPage(JFrame parent){
         super(parent);
         setContentPane(updateUserPage);
+        setTitle("Update User");
         setMinimumSize(new Dimension(500, 500));
         setModal(true);
         setLocationRelativeTo(parent);

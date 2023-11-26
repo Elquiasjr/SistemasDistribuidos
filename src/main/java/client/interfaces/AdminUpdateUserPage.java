@@ -35,7 +35,7 @@ public class AdminUpdateUserPage extends JDialog{
 
     public AdminUpdateUserPage(JFrame parent){
         super(parent);
-        setTitle("Server Connection");
+        setTitle("Admin Update User");
         setContentPane(adminUSPage);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);

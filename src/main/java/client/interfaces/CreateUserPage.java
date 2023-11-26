@@ -26,7 +26,7 @@ public class CreateUserPage extends JDialog{
 
     public CreateUserPage(JFrame parent){
         super(parent);
-        setTitle("Server Connection");
+        setTitle("Create User");
         setContentPane(createUser);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);

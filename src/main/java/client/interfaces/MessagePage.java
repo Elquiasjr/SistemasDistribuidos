@@ -14,7 +14,7 @@ public class MessagePage extends JDialog{
 
     public MessagePage(JFrame parent, String typeMessage, String textMessage){
         super(parent);
-        setTitle("Server Connection");
+        setTitle("Attention!");
         setContentPane(messageDisplay);
         setModal(true);
         setLocationRelativeTo(parent);

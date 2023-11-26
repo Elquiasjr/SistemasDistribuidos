@@ -26,7 +26,6 @@ public class UserOptions extends JDialog {
 
     public UserOptions(JFrame parent){
         super(parent);
-        setTitle("Server Connection");
         setMinimumSize(new Dimension(500, 500));
         setContentPane(userPage);
         setModal(true);

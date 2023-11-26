@@ -27,7 +27,7 @@ public class LandingPage extends JDialog{
     @SuppressWarnings("deprecation")
     public LandingPage(JFrame parent) {
         super(parent);
-        setTitle("Server Connection");
+        setTitle("Welcome!");
         setContentPane(initialPage);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);

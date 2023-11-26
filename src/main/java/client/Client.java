@@ -251,10 +251,15 @@ public class Client {
             }
             if(classType == AdminCreateUserRequest.class){
                 response = JsonHelper.fromJson(json, AdminCreateUserResponse.class);
-
+                if(response != null && response.payload() != null){
+                    MessagePage messagePage = new MessagePage(null, "Message", "New admin created with success!");
+                }
             }
             if(classType == CreateUserRequest.class){
                 response = JsonHelper.fromJson(json, CreateUserResponse.class);
+                if(response != null && response.payload() != null){
+                    MessagePage messagePage = new MessagePage(null, "Message", "New user created with success!");
+                }
             }
             if(classType == AdminDeleteUserRequest.class){
                 AdminDeleteUserResponse adminDUResponse = JsonHelper.fromJson(json, AdminDeleteUserResponse.class);
@@ -269,19 +274,34 @@ public class Client {
                 }
             }
             if(classType == AdminSearchUserRequest.class){
-                response = JsonHelper.fromJson(json, AdminSearchUserResponse.class);
+                AdminSearchUserResponse adminSUResponse = JsonHelper.fromJson(json, AdminSearchUserResponse.class);
+                if(adminSUResponse != null && adminSUResponse.payload() != null){
+                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Found", adminSUResponse.payload());
+                }
             }
             if(classType == AdminSearchUsersRequest.class){
-                response = JsonHelper.fromJson(json, AdminSearchUsersResponse.class);
+                AdminSearchUsersResponse adminSUsersResponse = JsonHelper.fromJson(json, AdminSearchUsersResponse.class);
+                if(adminSUsersResponse != null && adminSUsersResponse.payload() != null){
+                    DisplayUsersPage displayUsersPage = new DisplayUsersPage(null, adminSUsersResponse.payload().usuarios());
+                }
             }
             if(classType == AdminUpdateUserRequest.class){
-                response = JsonHelper.fromJson(json, AdminUpdateUserResponse.class);
+                AdminUpdateUserResponse adminUUResponse = JsonHelper.fromJson(json, AdminUpdateUserResponse.class);
+                if(adminUUResponse != null && adminUUResponse.payload() != null){
+                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Updated", adminUUResponse.payload());
+                }
             }
             if(classType == SearchUserRequest.class){
-                response = JsonHelper.fromJson(json, AdminSearchUserResponse.class);
+                SearchUserResponse sUResponse = JsonHelper.fromJson(json, SearchUserResponse.class);
+                if(sUResponse != null && sUResponse.payload() != null){
+                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Found", sUResponse.payload());
+                }
             }
             if(classType == UpdateUserRequest.class){
-                response = JsonHelper.fromJson(json, AdminUpdateUserResponse.class);
+                UpdateUserResponse uUResponse = JsonHelper.fromJson(json, UpdateUserResponse.class);
+                if(uUResponse != null && uUResponse.payload() != null){
+                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Updated", uUResponse.payload());
+                }
             }
 
             if(response == null || response.payload() == null){

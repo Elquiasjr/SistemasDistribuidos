@@ -17,7 +17,7 @@ public class AdminSearchUserPage extends JDialog{
 
     public AdminSearchUserPage(JFrame parent){
         super(parent);
-        setTitle("Server Connection");
+        setTitle("Admin Search User");
         setContentPane(adminSUPage);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);

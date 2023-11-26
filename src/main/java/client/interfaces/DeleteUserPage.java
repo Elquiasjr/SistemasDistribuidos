@@ -21,7 +21,7 @@ public class DeleteUserPage extends JDialog{
 
     public DeleteUserPage(JFrame parent){
         super(parent);
-        setTitle("Server Connection");
+        setTitle("Delete User");
         setContentPane(deleteAccountPage);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);
