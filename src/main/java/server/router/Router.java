@@ -11,7 +11,7 @@ import protocol.response.Response;
 import server.exceptions.BadRequestException;
 import server.exceptions.MethodNotAllowedException;
 import server.exceptions.ServerResponseException;
-import server.services.ServiceInterface;
+import server.services.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class Router {
 
-    private Map<String, ServiceInterface> routes;
+    private Map<String, Service> routes;
 
     public static RouterBuilder builder() { return new RouterBuilder();}
 
@@ -43,9 +43,9 @@ public class Router {
 
     public static class RouterBuilder{
         @NonNull
-        private final Map<String, ServiceInterface> routes = new HashMap<>();
+        private final Map<String, Service> routes = new HashMap<>();
 
-        public RouterBuilder addRoute(String operation, ServiceInterface handler){
+        public RouterBuilder addRoute(String operation, Service handler){
             routes.put(operation, handler);
             return this;
         }

@@ -26,6 +26,5 @@ public class ServiceAdminCreateUser extends ServiceTemplate {
                 .build();
         var createdUser = UserController.getInstance().createUser(user);
         return new AdminCreateUserResponse(createdUser);
-
     }
 }

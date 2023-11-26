@@ -16,7 +16,6 @@ public class ServiceLogout extends ServiceTemplate {
 
     public Response<?> startService(String jsonString) throws ServerResponseException{
         LogoutRequest logoutRequest = new LogoutRequest(jsonString);
-        ValidateToken.validate(logoutRequest.getHeader().token());
         try {
             var request = JsonHelper.fromJson(jsonString, logoutRequest.getClass());
             ValidationHelper.validate(request);

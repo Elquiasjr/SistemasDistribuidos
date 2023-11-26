@@ -7,7 +7,7 @@ import helper.json.JsonHelper;
 import helper.validation.ConstraintViolated;
 import server.exceptions.BadRequestException;
 
-public abstract class ServiceTemplate implements ServiceInterface{
+public abstract class ServiceTemplate implements Service {
 
     public <T> T buildRequest(String jsonString, Class<T> classType) throws ServerResponseException{
         try{

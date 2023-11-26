@@ -8,10 +8,7 @@ import server.controller.UserController;
 import server.dtobject.CreateUser;
 import server.exceptions.ServerResponseException;
 import server.router.Router;
-import server.services.ServiceAdminCreateUser;
-import server.services.ServiceCreateUser;
-import server.services.ServiceLogin;
-import server.services.ServiceLogout;
+import server.services.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,6 +30,13 @@ public class Server extends Thread {
                     .addRoute(RequisitionOperations.LOGOUT, new ServiceLogout())
                     .addRoute(RequisitionOperations.ADMIN_CADASTRAR_USUARIO, new ServiceAdminCreateUser())
                     .addRoute(RequisitionOperations.CADASTRAR_USUARIO, new ServiceCreateUser())
+                    .addRoute(RequisitionOperations.ADMIN_DELETAR_USUARIO, new ServiceAdminDeleteUser())
+                    .addRoute(RequisitionOperations.DELETAR_USUARIO, new ServiceDeleteUser())
+                    .addRoute(RequisitionOperations.ADMIN_BUSCAR_USUARIO, new ServiceAdminSearchUser())
+                    .addRoute(RequisitionOperations.ADMIN_BUSCAR_USUARIOS, new ServiceAdminSearchUsers())
+                    .addRoute(RequisitionOperations.BUSCAR_USUARIO, new ServiceSearchUser())
+                    .addRoute(RequisitionOperations.ADMIN_ATUALIZAR_USUARIO, new ServiceAdminUpdateUser())
+                    .addRoute(RequisitionOperations.ATUALIZAR_USUARIO, new ServiceUpdateUser())
                     .build();
         }
         start();

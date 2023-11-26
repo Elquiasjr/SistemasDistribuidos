@@ -10,6 +10,6 @@ public record ErrorResponse(@NotNull @Valid Payload error) implements Response<E
     @Override
     public Payload payload() { return error;}
 
-    public record Payload(@Positive int code, @NotBlank String message){
+    public record Payload(@Positive int code, @NotBlank String mensagem){
     }
 }

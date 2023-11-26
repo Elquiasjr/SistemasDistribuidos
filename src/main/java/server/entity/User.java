@@ -13,6 +13,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 import server.dtobject.CreateUser;
+import server.dtobject.UpdateUser;
 
 @Entity
 @Table(name = "Users")
@@ -51,5 +52,31 @@ public class User {
         entity.setNome(user.nome());
         return entity;
     }
+
+    public static User of(UpdateUser user){
+        var entity = new User();
+        entity.setRegistro(user.registro());
+        entity.setEmail(user.email());
+        entity.setSenha(user.senha());
+        entity.setTipo(user.tipo());
+        entity.setNome(user.nome());
+        return entity;
+    }
+
+    public void update(User info){
+        if(info.getEmail() != null){
+            setEmail(info.getEmail());
+        }
+        if(info.getSenha() != null){
+            setSenha(info.getSenha());
+        }
+        if(info.getTipo() != null){
+            setTipo(info.getTipo());
+        }
+        if(info.getNome() != null){
+            setNome(info.getNome());
+        }
+    }
+
 
 }

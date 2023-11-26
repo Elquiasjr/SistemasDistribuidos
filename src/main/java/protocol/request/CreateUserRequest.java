@@ -20,13 +20,13 @@ public class CreateUserRequest extends Request<CreateUserRequest.Payload>{
     }
 
     public record Payload(
-            @NotBlank(message = "can´t be empty")
+            @NotBlank(message = "can't be empty")
             @Size(min = 3, max = 255, message = "nome must be between 3 and 255 characters")
             String nome,
-            @NotBlank(message = "email can´t be empty")
+            @NotBlank(message = "email can't be empty")
             @Email
             String email,
-            @NotNull(message = "senha can´t be null")
+            @NotNull(message = "senha can't be null")
             String senha,
             @NotNull(message = "tipo can´t be null")
             Boolean tipo
