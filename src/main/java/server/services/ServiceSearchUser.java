@@ -1,7 +1,7 @@
 package server.services;
 
 import jwt.JwtHelper;
-import protocol.request.SearchUserRequest;
+import protocol.request.user.SearchUserRequest;
 import protocol.response.Response;
 import protocol.response.SearchUserResponse;
 import server.controller.UserController;

@@ -3,7 +3,7 @@ package server.services;
 import server.exceptions.ServerResponseException;
 import protocol.response.LoginResponse;
 import protocol.response.Response;
-import protocol.request.LoginRequest;
+import protocol.request.user.LoginRequest;
 import server.controller.UserController;
 
 public class ServiceLogin extends ServiceTemplate {

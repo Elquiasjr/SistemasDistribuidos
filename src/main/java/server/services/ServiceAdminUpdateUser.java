@@ -1,7 +1,7 @@
 package server.services;
 
 import jwt.JwtHelper;
-import protocol.request.AdminUpdateUserRequest;
+import protocol.request.user.AdminUpdateUserRequest;
 import protocol.response.Response;
 import protocol.response.UpdateUserResponse;
 import server.controller.UserController;

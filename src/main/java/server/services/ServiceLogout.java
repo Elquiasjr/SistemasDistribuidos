@@ -4,13 +4,11 @@ import com.google.gson.JsonSyntaxException;
 import helper.json.JsonHelper;
 import helper.validation.ConstraintViolated;
 import helper.validation.ValidationHelper;
-import protocol.request.LogoutRequest;
+import protocol.request.user.LogoutRequest;
 import protocol.response.LogoutResponse;
 import protocol.response.Response;
 import server.exceptions.BadRequestException;
 import server.exceptions.ServerResponseException;
-
-import server.validate.ValidateToken;
 
 public class ServiceLogout extends ServiceTemplate {
 

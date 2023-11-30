@@ -1,4 +1,4 @@
-package protocol.request;
+package protocol.request.user;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import protocol.request.Request;
+import protocol.request.RequisitionOperations;
 import protocol.request.header.Header;
 @Getter
-public class CreateUserRequest extends Request<CreateUserRequest.Payload>{
+public class CreateUserRequest extends Request<CreateUserRequest.Payload> {
     @NotNull(message = "payload não pode ser nulo")
     @Valid
     private final CreateUserRequest.Payload payload;

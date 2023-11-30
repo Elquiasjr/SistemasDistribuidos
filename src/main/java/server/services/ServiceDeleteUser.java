@@ -1,18 +1,14 @@
 package server.services;
 
 import jwt.JwtHelper;
-import protocol.request.AdminDeleteUserRequest;
-import protocol.request.DeleteUserRequest;
-import protocol.request.LoginRequest;
-import protocol.response.AdminDeleteUserResponse;
+import protocol.request.user.DeleteUserRequest;
+import protocol.request.user.LoginRequest;
 import protocol.response.DeleteUserResponse;
 import protocol.response.Response;
 import server.controller.UserController;
 import server.dtobject.DeleteUser;
-import server.entity.User;
 import server.exceptions.ForbiddenAccessException;
 import server.exceptions.ServerResponseException;
-import server.validate.ValidateAdmin;
 import server.validate.ValidateToken;
 
 public class ServiceDeleteUser extends ServiceTemplate{

@@ -1,5 +1,8 @@
-package protocol.request;
+package protocol.request.user;
 
+import protocol.request.EmptyRequest;
+import protocol.request.Request;
+import protocol.request.RequisitionOperations;
 import protocol.request.header.Header;
 
 public class AdminSearchUsersRequest extends Request<EmptyRequest> {

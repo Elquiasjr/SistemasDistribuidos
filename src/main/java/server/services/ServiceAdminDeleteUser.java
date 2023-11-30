@@ -1,9 +1,7 @@
 package server.services;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Delete;
-
 import jwt.JwtHelper;
-import protocol.request.AdminDeleteUserRequest;
+import protocol.request.user.AdminDeleteUserRequest;
 import protocol.response.AdminDeleteUserResponse;
 import protocol.response.Response;
 import server.exceptions.ServerResponseException;

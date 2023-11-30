@@ -1,6 +1,6 @@
 package server.services;
 
-import protocol.request.AdminSearchUserRequest;
+import protocol.request.user.AdminSearchUserRequest;
 import protocol.response.AdminSearchUserResponse;
 import protocol.response.Response;
 import server.controller.UserController;

@@ -1,6 +1,6 @@
 package server.services;
 
-import protocol.request.AdminCreateUserRequest;
+import protocol.request.user.AdminCreateUserRequest;
 import protocol.response.AdminCreateUserResponse;
 import protocol.response.Response;
 import server.controller.UserController;

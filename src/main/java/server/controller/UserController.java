@@ -1,7 +1,7 @@
 package server.controller;
 
 import jwt.JwtHelper;
-import protocol.request.LoginRequest;
+import protocol.request.user.LoginRequest;
 import server.dtobject.CreateUser;
 import server.dtobject.UserDTO;
 import server.dtobject.DeleteUser;

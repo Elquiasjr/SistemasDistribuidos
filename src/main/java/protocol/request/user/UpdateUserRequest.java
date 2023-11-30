@@ -1,9 +1,11 @@
-package protocol.request;
+package protocol.request.user;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import protocol.Optional;
+import protocol.request.Request;
+import protocol.request.RequisitionOperations;
 import protocol.request.header.Header;
 
 @Getter

@@ -3,6 +3,7 @@ package client;
 import client.interfaces.*;
 import com.google.gson.JsonSyntaxException;
 import protocol.request.*;
+import protocol.request.user.*;
 import protocol.response.*;
 import protocol.request.header.Header;
 import protocol.Optional;
@@ -12,12 +13,10 @@ import java.net.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
-import java.util.Objects;
 
 import helper.json.JsonHelper;
 import helper.validation.ConstraintViolated;
 import helper.validation.ValidationHelper;
-import server.dtobject.DeleteUser;
 
 
 public class Client {

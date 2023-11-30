@@ -1,4 +1,4 @@
-package protocol.request;
+package protocol.request.user;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -7,10 +7,12 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import protocol.Optional;
+import protocol.request.Request;
+import protocol.request.RequisitionOperations;
 import protocol.request.header.Header;
 
 @Getter
-public class AdminUpdateUserRequest extends Request<AdminUpdateUserRequest.Payload>{
+public class AdminUpdateUserRequest extends Request<AdminUpdateUserRequest.Payload> {
 
     @NotNull
     @Valid
