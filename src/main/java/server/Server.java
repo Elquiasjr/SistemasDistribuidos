@@ -2,13 +2,20 @@ package server;
 
 import helper.json.JsonHelper;
 import protocol.request.RequisitionOperations;
-import protocol.response.LogoutResponse;
+import protocol.response.user.LogoutResponse;
 import protocol.response.Response;
+import server.commons.EuclidianDistance;
+import server.commons.Posicao;
+import server.controller.PDIController;
+import server.controller.SegmentController;
 import server.controller.UserController;
-import server.dtobject.CreateUser;
+import server.dtobject.pdi.CreatePDI;
+import server.dtobject.segment.CreateSegment;
+import server.dtobject.user.CreateUser;
 import server.exceptions.ServerResponseException;
 import server.router.Router;
-import server.services.*;
+import server.services.map.*;
+import server.services.user.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,12 +44,33 @@ public class Server extends Thread {
                     .addRoute(RequisitionOperations.BUSCAR_USUARIO, new ServiceSearchUser())
                     .addRoute(RequisitionOperations.ADMIN_ATUALIZAR_USUARIO, new ServiceAdminUpdateUser())
                     .addRoute(RequisitionOperations.ATUALIZAR_USUARIO, new ServiceUpdateUser())
+                    .addRoute(RequisitionOperations.CADASTRAR_PDI, new ServiceAdminCreatePDI())
+                    .addRoute(RequisitionOperations.BUSCAR_PDIS, new ServiceAdminSearchPDIs())
+                    .addRoute(RequisitionOperations.ATUALIZAR_PDI, new ServiceAdminUpdatePDI())
+                    .addRoute(RequisitionOperations.DELETAR_PDI, new ServiceAdminDeletePDI())
+                    .addRoute(RequisitionOperations.CADASTRAR_SEGMENTO, new ServiceAdminCreateSegment())
+                    .addRoute(RequisitionOperations.BUSCAR_SEGMENTOS, new ServiceAdminSearchSegments())
+                    .addRoute(RequisitionOperations.ATUALIZAR_SEGMENTO, new ServiceAdminUpdateSegment())
+                    .addRoute(RequisitionOperations.DELETAR_SEGMENTO, new ServiceAdminDeleteSegment())
                     .build();
         }
         start();
     }
 
     public static void main(String[] args) throws ServerResponseException, IOException {
+
+        UserController.getInstance();
+        PDIController.getInstance();
+        SegmentController.getInstance();
+
+        PDIController.getInstance().createPDI(new CreatePDI("Portaria", 0.0,
+                0.0, "Ponto Inicial", true));
+        PDIController.getInstance().createPDI(new CreatePDI("Capela", 0.0,
+                10.0, null, true));
+
+        SegmentController.getInstance().createSegment(new CreateSegment(Long.parseLong("1"),Long.parseLong("2"),
+                EuclidianDistance.CalculateDistance(new Posicao(0.0, 0.0),
+                        new Posicao(0.0, 10.0)), "Escada no caminho", true));
 
         UserController.getInstance()
                 .createUser(new CreateUser("email@email.com", "123456", "jose", true));

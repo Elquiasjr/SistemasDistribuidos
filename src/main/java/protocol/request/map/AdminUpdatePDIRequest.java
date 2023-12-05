@@ -9,7 +9,7 @@ import protocol.Optional;
 import protocol.request.Request;
 import protocol.request.RequisitionOperations;
 import protocol.request.header.Header;
-import protocol.request.user.AdminUpdateUserRequest;
+import server.commons.Posicao;
 
 @Getter
 public class AdminUpdatePDIRequest extends Request<AdminUpdatePDIRequest.Payload> {
@@ -19,20 +19,16 @@ public class AdminUpdatePDIRequest extends Request<AdminUpdatePDIRequest.Payload
     private final AdminUpdatePDIRequest.Payload payload;
 
     public AdminUpdatePDIRequest(String token, Long id, @Optional String nome,
-                                 @Optional int x, @Optional int y, @Optional String aviso, @Optional Boolean acessivel){
+                                  @Optional String aviso, @Optional Boolean acessivel){
         super(new Header(RequisitionOperations.ATUALIZAR_PDI, token));
-        payload = new Payload(id, nome, new Posicao(x, y), aviso, acessivel);
+        payload = new Payload(id, nome, aviso, acessivel);
     }
-    public record Posicao(
-            int x, int y
-    ){}
 
     public record Payload(
             @Positive(message = "id can't be null")
             Long id,
             @Size(min = 3, max = 255)
             String nome,
-            Posicao posicao,
             String aviso,
             Boolean acessivel
     ){}

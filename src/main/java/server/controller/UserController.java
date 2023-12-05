@@ -2,10 +2,10 @@ package server.controller;
 
 import jwt.JwtHelper;
 import protocol.request.user.LoginRequest;
-import server.dtobject.CreateUser;
-import server.dtobject.UserDTO;
-import server.dtobject.DeleteUser;
-import server.dtobject.UpdateUser;
+import server.dtobject.user.CreateUser;
+import server.dtobject.user.UserDTO;
+import server.dtobject.user.DeleteUser;
+import server.dtobject.user.UpdateUser;
 import server.entity.User;
 import server.exceptions.LastAdminException;
 import server.exceptions.ResourceNotFoundException;
@@ -48,6 +48,7 @@ public class UserController {
             throw new LastAdminException();
         }
     }
+
     public List<UserDTO> findUsers(){
         return repository.findAll()
                 .stream()
@@ -61,7 +62,6 @@ public class UserController {
 
         return UserDTO.of(entity);
     }
-
 
     public UserDTO createUser(CreateUser user) throws ServerResponseException {
         var entity = User.of(user);

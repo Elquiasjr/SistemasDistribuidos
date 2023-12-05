@@ -21,6 +21,7 @@ public class AdminUpdateSegmentRequest extends Request<AdminUpdateSegmentRequest
 
     public record Payload(@Positive Long pdi_inicial,
                           @Positive Long pdi_final,
+
                           String aviso,
                           Boolean acessivel){}
 }

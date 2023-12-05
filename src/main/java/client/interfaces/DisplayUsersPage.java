@@ -1,6 +1,6 @@
 package client.interfaces;
 
-import server.dtobject.UserDTO;
+import server.dtobject.user.UserDTO;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

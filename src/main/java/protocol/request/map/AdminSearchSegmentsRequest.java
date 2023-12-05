@@ -8,7 +8,7 @@ import protocol.request.header.Header;
 public class AdminSearchSegmentsRequest extends Request<EmptyRequest> {
 
     public AdminSearchSegmentsRequest(final String token){
-        super(new Header(RequisitionOperations.BUSCAR_SEGMENTO, token));
+        super(new Header(RequisitionOperations.BUSCAR_SEGMENTOS, token));
     }
 
 }

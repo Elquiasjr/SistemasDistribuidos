@@ -10,6 +10,8 @@
         </description>
 
         <class>server.entity.User</class>
+        <class>server.entity.PDI</class>
+        <class>server.entity.Segment</class>
 
         <properties>
 

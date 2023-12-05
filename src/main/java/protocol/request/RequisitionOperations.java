@@ -25,7 +25,7 @@ public interface RequisitionOperations {
 
     String CADASTRAR_SEGMENTO = "CADASTRAR_SEGMENTO";
 
-    String BUSCAR_SEGMENTO = "BUSCAR_SEGMENTO";
+    String BUSCAR_SEGMENTOS = "BUSCAR_SEGMENTOS";
 
     String ATUALIZAR_SEGMENTO = "ATUALIZAR_SEGMENTO";
 

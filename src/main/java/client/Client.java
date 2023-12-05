@@ -3,6 +3,7 @@ package client;
 import client.interfaces.*;
 import com.google.gson.JsonSyntaxException;
 import protocol.request.*;
+import protocol.request.map.*;
 import protocol.request.user.*;
 import protocol.response.*;
 import protocol.request.header.Header;
@@ -17,6 +18,10 @@ import java.lang.reflect.Parameter;
 import helper.json.JsonHelper;
 import helper.validation.ConstraintViolated;
 import helper.validation.ValidationHelper;
+import protocol.response.map.*;
+import protocol.response.user.SearchUserResponse;
+import protocol.response.user.UpdateUserResponse;
+import protocol.response.user.*;
 
 
 public class Client {
@@ -138,12 +143,12 @@ public class Client {
     }
 
     private static Request<?> requestGenerator(BufferedReader stdin, String token) throws IOException{
-        UserOptions userOptions = new UserOptions(null);
-        String operation = userOptions.getOperation();
-
+//        UserOptions userOptions = new UserOptions(null);
+//        String operation = userOptions.getOperation();
+        String operation = null;
         while(true) {
-//            System.out.print("Insira a operação: ");
-//            operation = stdin.readLine();
+            System.out.print("Insira a operação: ");
+            operation = stdin.readLine();
             if(operation == null){
                 throw new IOException();
             }
@@ -177,6 +182,22 @@ public class Client {
                     return new UpdateUserRequest(token, UUPage.getUserEmail(), UUPage.getUserName(), UUPage.getUserPassword());
                 case RequisitionOperations.BUSCAR_USUARIO:
                     return new SearchUserRequest(token);
+                case RequisitionOperations.CADASTRAR_PDI:
+                    return createRequest(stdin, token, AdminCreatePDIRequest.class);
+                case RequisitionOperations.BUSCAR_PDIS:
+                    return createRequest(stdin, token, AdminSearchPDIsRequest.class);
+                case RequisitionOperations.ATUALIZAR_PDI:
+                    return createRequest(stdin, token, AdminUpdatePDIRequest.class);
+                case RequisitionOperations.DELETAR_PDI:
+                    return createRequest(stdin, token, AdminDeletePDIRequest.class);
+                case RequisitionOperations.CADASTRAR_SEGMENTO:
+                    return createRequest(stdin, token, AdminCreateSegmentRequest.class);
+                case RequisitionOperations.BUSCAR_SEGMENTOS:
+                    return createRequest(stdin, token, AdminSearchSegmentsRequest.class);
+                case RequisitionOperations.ATUALIZAR_SEGMENTO:
+                    return createRequest(stdin, token, AdminUpdateSegmentRequest.class);
+                case RequisitionOperations.DELETAR_SEGMENTO:
+                    return createRequest(stdin, token, AdminDeleteSegmentRequest.class);
 
             }
         }
@@ -218,6 +239,8 @@ public class Client {
                     constructorArguments[i] = Integer.parseInt(line);
                 }else if(parameters[i].getType() == Boolean.class){
                     constructorArguments[i] = Boolean.parseBoolean(line);
+                }else if(parameters[i].getType() == Float.class){
+                    constructorArguments[i] = Float.parseFloat(line);
                 }else{
                     constructorArguments[i] = line;
                 }
@@ -302,8 +325,31 @@ public class Client {
                     DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Updated", uUResponse.payload());
                 }
             }
-
-            if(response == null || response.payload() == null){
+            if(classType == AdminCreatePDIRequest.class){
+                response = JsonHelper.fromJson(json, AdminCreatePDIResponse.class);
+            }
+            if (classType == AdminUpdatePDIRequest.class) {
+                response = JsonHelper.fromJson(json, AdminUpdatePDIResponse.class);
+            }
+            if (classType == AdminDeletePDIRequest.class) {
+                response = JsonHelper.fromJson(json, AdminDeletePDIResponse.class);
+            }
+            if (classType == AdminSearchPDIsRequest.class) {
+                response = JsonHelper.fromJson(json, AdminSearchPDIsResponse.class);
+            }
+            if (classType == AdminCreateSegmentRequest.class) {
+                response = JsonHelper.fromJson(json, AdminCreateSegmentResponse.class);
+            }
+            if (classType == AdminUpdateSegmentRequest.class) {
+                response = JsonHelper.fromJson(json, AdminUpdateSegmentResponse.class);
+            }
+            if (classType == AdminDeleteSegmentRequest.class) {
+                response = JsonHelper.fromJson(json, AdminDeleteSegmentResponse.class);
+            }
+            if (classType == AdminSearchSegmentsRequest.class) {
+                response = JsonHelper.fromJson(json, AdminSearchSegmentsResponse.class);
+            }
+                if(response == null || response.payload() == null){
                 response = JsonHelper.fromJson(json, ErrorResponse.class);
                 ErrorResponse errorResponse = (ErrorResponse) response;
                 MessagePage messagePage = new MessagePage(null, "Error", errorResponse.payload().mensagem());

@@ -1,6 +1,6 @@
 package client.interfaces;
 
-import server.dtobject.UserDTO;
+import server.dtobject.user.UserDTO;
 
 import javax.swing.*;
 import java.awt.*;
