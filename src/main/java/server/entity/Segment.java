@@ -29,7 +29,7 @@ public class Segment {
     private Long pdi_final;
 
     @NotNull
-    private Float distancia;
+    private Double distancia;
 
     private String aviso;
 

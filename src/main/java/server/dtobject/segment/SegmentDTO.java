@@ -9,7 +9,7 @@ public record SegmentDTO(@NotNull Long id,
 
                          @NotNull Long pdi_inicial,
                          @NotNull Long pdi_final,
-                         @NotNull Float distancia,
+                         @NotNull Double distancia,
                          String aviso,
                          @NotNull Boolean acessivel) {
 

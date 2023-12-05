@@ -31,7 +31,7 @@ public class ServiceAdminCreateSegment extends ServiceTemplate  {
 
         Posicao posFinal = pdi_final.posicao();
 
-        Float distanciaSegmento = EuclidianDistance.CalculateDistance(posInicial, posFinal);
+        Double distanciaSegmento = EuclidianDistance.CalculateDistance(posInicial, posFinal);
 
         var segment = CreateSegment.builder()
                 .pdi_inicial(payload.pdi_inicial())

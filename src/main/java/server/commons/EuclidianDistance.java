@@ -6,10 +6,10 @@ public class EuclidianDistance {
     public EuclidianDistance(){
     }
 
-    public static Float CalculateDistance(Posicao PInicial, Posicao PFinal){
+    public static Double CalculateDistance(Posicao PInicial, Posicao PFinal){
         Double XDiff = Math.pow((PFinal.x()- PInicial.x()), 2);
         Double YDiff = Math.pow((PFinal.y()- PInicial.y()), 2);
 
-        return (float) Math.sqrt(XDiff+YDiff);
+        return Math.sqrt(XDiff+YDiff);
     }
 }
