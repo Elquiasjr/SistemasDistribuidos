@@ -1,6 +1,8 @@
 package client;
 
 import client.interfaces.*;
+import client.interfaces.map.*;
+import client.interfaces.user.*;
 import com.google.gson.JsonSyntaxException;
 import protocol.request.*;
 import protocol.request.map.*;
@@ -14,6 +16,7 @@ import java.net.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
+import java.util.List;
 
 import helper.json.JsonHelper;
 import helper.validation.ConstraintViolated;
@@ -22,6 +25,11 @@ import protocol.response.map.*;
 import protocol.response.user.SearchUserResponse;
 import protocol.response.user.UpdateUserResponse;
 import protocol.response.user.*;
+import server.dtobject.pdi.CreatePDI;
+import server.dtobject.pdi.PDIDTO;
+import server.dtobject.segment.CreateSegment;
+import server.dtobject.segment.SegmentDTO;
+import server.dtobject.user.UserDTO;
 
 
 public class Client {
@@ -38,12 +46,12 @@ public class Client {
 
         try {
             stdin = new BufferedReader(new InputStreamReader(System.in));
-            //InitialPage initialPage  = new InitialPage(null);
-            //port = initialPage.getPort();
-            //serverHostname = initialPage.getIp();
+            InitialPage initialPage  = new InitialPage(null);
+            port = initialPage.getPort();
+            serverHostname = initialPage.getIp();
 
-            serverHostname = "localhost";
-            port = 24800;
+//            serverHostname = "localhost";
+//            port = 24800;
             System.out.println ("Attemping to connect to host " +
                 serverHostname + " on port " + port + ".");
             echoSocket = new Socket(serverHostname, port);
@@ -143,12 +151,11 @@ public class Client {
     }
 
     private static Request<?> requestGenerator(BufferedReader stdin, String token) throws IOException{
-//        UserOptions userOptions = new UserOptions(null);
-//        String operation = userOptions.getOperation();
-        String operation = null;
+        String operation;
         while(true) {
-            System.out.print("Insira a operação: ");
-            operation = stdin.readLine();
+//            System.out.print("Insira a operação: ");
+            UserOptions userOptions = new UserOptions(null);
+            operation = userOptions.getOperation();
             if(operation == null){
                 throw new IOException();
             }
@@ -183,22 +190,31 @@ public class Client {
                 case RequisitionOperations.BUSCAR_USUARIO:
                     return new SearchUserRequest(token);
                 case RequisitionOperations.CADASTRAR_PDI:
-                    return createRequest(stdin, token, AdminCreatePDIRequest.class);
+                    CreatePDIPage cPDIPage = new CreatePDIPage(null);
+                    return new AdminCreatePDIRequest(token, cPDIPage.getPdiName(), cPDIPage.getPdiX(),
+                            cPDIPage.getPdiY(), cPDIPage.getPdiWarning(), cPDIPage.getPdiAcessible());
                 case RequisitionOperations.BUSCAR_PDIS:
-                    return createRequest(stdin, token, AdminSearchPDIsRequest.class);
+                    return new AdminSearchPDIsRequest(token);
                 case RequisitionOperations.ATUALIZAR_PDI:
-                    return createRequest(stdin, token, AdminUpdatePDIRequest.class);
+                    UpdatePDIPage uPDIPage = new UpdatePDIPage(null);
+                    return new AdminUpdatePDIRequest(token, uPDIPage.getPdiId(), uPDIPage.getPdiName(),
+                            uPDIPage.getPdiWarning(), uPDIPage.getPdiAcessible());
                 case RequisitionOperations.DELETAR_PDI:
-                    return createRequest(stdin, token, AdminDeletePDIRequest.class);
+                    DeletePDIPage dPDIPage = new DeletePDIPage(null);
+                    return new AdminDeletePDIRequest(token, dPDIPage.getIdPDI());
                 case RequisitionOperations.CADASTRAR_SEGMENTO:
-                    return createRequest(stdin, token, AdminCreateSegmentRequest.class);
+                    CreateSegmentPage cSPage = new CreateSegmentPage(null);
+                    return new AdminCreateSegmentRequest(token, cSPage.getInitialPDI(), cSPage.getFinalPDI(),
+                            cSPage.getPdiWarning(), cSPage.getPdiAcessible());
                 case RequisitionOperations.BUSCAR_SEGMENTOS:
-                    return createRequest(stdin, token, AdminSearchSegmentsRequest.class);
+                    return new AdminSearchSegmentsRequest(token);
                 case RequisitionOperations.ATUALIZAR_SEGMENTO:
-                    return createRequest(stdin, token, AdminUpdateSegmentRequest.class);
+                    UpdateSegmentPage uSPage = new UpdateSegmentPage(null);
+                    return new AdminUpdateSegmentRequest(token, uSPage.getInitialPDI(), uSPage.getFinalPDI(),
+                            uSPage.getPdiWarning(), uSPage.getPdiAcessible());
                 case RequisitionOperations.DELETAR_SEGMENTO:
-                    return createRequest(stdin, token, AdminDeleteSegmentRequest.class);
-
+                    DeleteSegmentPage dSPage = new DeleteSegmentPage(null);
+                    return new AdminDeleteSegmentRequest(token, dSPage.getInitialPDI(), dSPage.getFinalPDI());
             }
         }
     }
@@ -255,6 +271,7 @@ public class Client {
         throw new RuntimeException("Unable to create a new instance of " + classType.getName());
     }
 
+    @SuppressWarnings("Unchecked Cast")
     private static Response<?> handleResponse(String json, Request<?> request){
         Response<?> response = null;
         try{
@@ -284,9 +301,9 @@ public class Client {
                 }
             }
             if(classType == AdminDeleteUserRequest.class){
-                AdminDeleteUserResponse adminDUResponse = JsonHelper.fromJson(json, AdminDeleteUserResponse.class);
-                if(adminDUResponse != null && adminDUResponse.payload() != null){
-                    MessagePage messagePage = new MessagePage(null, "Message", adminDUResponse.payload().mensagem());
+                response = JsonHelper.fromJson(json, AdminDeleteUserResponse.class);
+                if(response != null && response.payload() != null){
+                    MessagePage messagePage = new MessagePage(null, "Message", ((AdminDeleteUserResponse.Payload) response.payload()).mensagem());
                 }
             }
             if(classType == DeleteUserRequest.class){
@@ -296,63 +313,90 @@ public class Client {
                 }
             }
             if(classType == AdminSearchUserRequest.class){
-                AdminSearchUserResponse adminSUResponse = JsonHelper.fromJson(json, AdminSearchUserResponse.class);
-                if(adminSUResponse != null && adminSUResponse.payload() != null){
-                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Found", adminSUResponse.payload());
+                response  = JsonHelper.fromJson(json, AdminSearchUserResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Found", ((UserDTO) response.payload()));
                 }
             }
             if(classType == AdminSearchUsersRequest.class){
-                AdminSearchUsersResponse adminSUsersResponse = JsonHelper.fromJson(json, AdminSearchUsersResponse.class);
-                if(adminSUsersResponse != null && adminSUsersResponse.payload() != null){
-                    DisplayUsersPage displayUsersPage = new DisplayUsersPage(null, adminSUsersResponse.payload().usuarios());
+                response = JsonHelper.fromJson(json, AdminSearchUsersResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplayUsersPage displayUsersPage = new DisplayUsersPage(null, ((AdminSearchUsersResponse.Payload) response.payload()).usuarios());
                 }
             }
             if(classType == AdminUpdateUserRequest.class){
-                AdminUpdateUserResponse adminUUResponse = JsonHelper.fromJson(json, AdminUpdateUserResponse.class);
-                if(adminUUResponse != null && adminUUResponse.payload() != null){
-                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Updated", adminUUResponse.payload());
+                response = JsonHelper.fromJson(json, AdminUpdateUserResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Updated", ((UserDTO) response.payload()));
                 }
             }
             if(classType == SearchUserRequest.class){
-                SearchUserResponse sUResponse = JsonHelper.fromJson(json, SearchUserResponse.class);
-                if(sUResponse != null && sUResponse.payload() != null){
-                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Found", sUResponse.payload());
+                response = JsonHelper.fromJson(json, SearchUserResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Found", (UserDTO) response.payload());
                 }
             }
             if(classType == UpdateUserRequest.class){
-                UpdateUserResponse uUResponse = JsonHelper.fromJson(json, UpdateUserResponse.class);
-                if(uUResponse != null && uUResponse.payload() != null){
-                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Updated", uUResponse.payload());
+                response = JsonHelper.fromJson(json, UpdateUserResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplayUserPage displayUserPage = new DisplayUserPage(null, "User Updated", (UserDTO) response.payload());
                 }
             }
             if(classType == AdminCreatePDIRequest.class){
                 response = JsonHelper.fromJson(json, AdminCreatePDIResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplayPDIPage displayPDIPage = new DisplayPDIPage(null, (PDIDTO)response.payload());
+                }
             }
             if (classType == AdminUpdatePDIRequest.class) {
                 response = JsonHelper.fromJson(json, AdminUpdatePDIResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplayPDIPage displayUserPage = new DisplayPDIPage(null, (PDIDTO) response.payload());
+                }
             }
             if (classType == AdminDeletePDIRequest.class) {
                 response = JsonHelper.fromJson(json, AdminDeletePDIResponse.class);
+                if(response != null && response.payload() != null){
+                    MessagePage messagePage = new MessagePage(null, "Message", ((AdminDeletePDIResponse.Payload) response.payload()).mensagem());
+                }
             }
             if (classType == AdminSearchPDIsRequest.class) {
                 response = JsonHelper.fromJson(json, AdminSearchPDIsResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplayPDIsPage displayPDIsPage = new DisplayPDIsPage(null, (List<PDIDTO>) ((AdminSearchPDIsResponse.Payload) response.payload()).pdis());
+                }
             }
             if (classType == AdminCreateSegmentRequest.class) {
                 response = JsonHelper.fromJson(json, AdminCreateSegmentResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplaySegmentPage displaySegmentPage = new DisplaySegmentPage(null, (SegmentDTO) response.payload());
+                }
             }
             if (classType == AdminUpdateSegmentRequest.class) {
                 response = JsonHelper.fromJson(json, AdminUpdateSegmentResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplaySegmentPage displaySegmentPage = new DisplaySegmentPage(null, (SegmentDTO) response.payload());
+                }
             }
             if (classType == AdminDeleteSegmentRequest.class) {
                 response = JsonHelper.fromJson(json, AdminDeleteSegmentResponse.class);
+                if(response != null && response.payload() != null){
+                    MessagePage messagePage = new MessagePage(null, "Message",  ((AdminDeleteSegmentResponse.Payload) response.payload()).mensagem());
+                }
             }
             if (classType == AdminSearchSegmentsRequest.class) {
                 response = JsonHelper.fromJson(json, AdminSearchSegmentsResponse.class);
+                if(response != null && response.payload() != null){
+                    DisplaySegmentsPage displaySegmentPage = new DisplaySegmentsPage(null, (List<SegmentDTO>) ((AdminSearchSegmentsResponse.Payload) response.payload()).segmentos());
+                }
             }
                 if(response == null || response.payload() == null){
-                response = JsonHelper.fromJson(json, ErrorResponse.class);
-                ErrorResponse errorResponse = (ErrorResponse) response;
-                MessagePage messagePage = new MessagePage(null, "Error", errorResponse.payload().mensagem());
+                    response = JsonHelper.fromJson(json, ErrorResponse.class);
+                    ErrorResponse errorResponse = (ErrorResponse) response;
+                    if(errorResponse != null && errorResponse.error().mensagem() != null){
+                        MessagePage messagePage = new MessagePage(null, "Error", errorResponse.error().mensagem());
+                    }
+
             }
             ValidationHelper.validate(response);
             return response;

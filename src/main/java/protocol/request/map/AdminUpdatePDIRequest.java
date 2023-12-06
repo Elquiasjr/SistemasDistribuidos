@@ -25,7 +25,8 @@ public class AdminUpdatePDIRequest extends Request<AdminUpdatePDIRequest.Payload
     }
 
     public record Payload(
-            @Positive(message = "id can't be null")
+            @NotNull(message = "id can't be null")
+            @Positive(message = "id must be positive")
             Long id,
             @Size(min = 3, max = 255)
             String nome,

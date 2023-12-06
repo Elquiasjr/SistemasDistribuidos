@@ -29,10 +29,10 @@ public class ServiceAdminDeletePDI extends ServiceTemplate {
                 .pdiToDelete(payload.id())
                 .build();
 
-        Long aux = pdi.pdiToDelete();
+        Long idDelete = pdi.pdiToDelete();
         PDIController.getInstance().deletePDI(pdi);
 
-        SegmentController.getInstance().deleteLinkedSegments(aux);
+        SegmentController.getInstance().deleteLinkedSegments(idDelete);
 
         return new AdminDeletePDIResponse(payload.id());
     }
