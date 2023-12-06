@@ -1,4 +1,4 @@
-package client.interfaces;
+package client.interfaces.user;
 
 import lombok.Getter;
 
@@ -36,10 +36,10 @@ public class LandingPage extends JDialog{
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                // email = emailField.getText();
-                // password = passwordField.getText();
-                email = "email@email.com";
-                password = "123456";
+                 email = emailField.getText();
+                 password = passwordField.getText();
+//                email = "email@email.com";
+//                password = "123456";
                 System.out.println("password: " + password);
                 operation = "LOGIN";
                 dispose();

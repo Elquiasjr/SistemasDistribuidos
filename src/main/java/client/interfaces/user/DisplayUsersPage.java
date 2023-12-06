@@ -1,4 +1,4 @@
-package client.interfaces;
+package client.interfaces.user;
 
 import server.dtobject.user.UserDTO;
 
