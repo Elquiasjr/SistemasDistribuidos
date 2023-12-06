@@ -1,4 +1,4 @@
-package client.interfaces.user;
+package client.interfaces.map;
 
 import lombok.Getter;
 
@@ -7,30 +7,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AdminSearchUserPage extends JDialog{
+public class DeletePDIPage extends JDialog {
     private JTextField idField;
     private JButton doneButton;
-    private JPanel adminSUPage;
-
+    private JPanel deletePDIPanel;
     @Getter
-    private Long id;
+    private Long idPDI;
 
-    public AdminSearchUserPage(JFrame parent){
+    public DeletePDIPage(JFrame parent) {
         super(parent);
-        setTitle("Admin Search User");
-        setContentPane(adminSUPage);
+        setTitle("Admin Create PDIr");
+        setContentPane(deletePDIPanel);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-            id = Long.parseLong(idField.getText());
-            dispose();
+
+                idPDI = Long.parseLong(idField.getText());
+                dispose();
             }
         });
         setVisible(true);
     }
 }
+

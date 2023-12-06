@@ -20,6 +20,14 @@ public class UserOptions extends JDialog {
     private JButton searchUserButton;
     private JButton updateUserButton;
     private JPanel userPage;
+    private JButton adminCreatePDIButton;
+    private JButton adminCreateSegmentButton;
+    private JButton adminSearchPDIsButton;
+    private JButton adminUpdatePDIButton;
+    private JButton adminDeletePDIButton;
+    private JButton adminSearchSegmentsButton;
+    private JButton adminUpdateSegmentButton;
+    private JButton adminDeleteSegmentButton;
 
     @Getter
     private String operation;
@@ -29,6 +37,7 @@ public class UserOptions extends JDialog {
         setMinimumSize(new Dimension(500, 500));
         setContentPane(userPage);
         setModal(true);
+        setTitle("Choose an option");
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         adminCreateUserButton.addActionListener(new ActionListener() {
@@ -98,6 +107,62 @@ public class UserOptions extends JDialog {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 operation = RequisitionOperations.LOGOUT;
+                dispose();
+            }
+        });
+        adminCreatePDIButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                operation = RequisitionOperations.CADASTRAR_PDI;
+                dispose();
+            }
+        });
+        adminSearchPDIsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                operation = RequisitionOperations.BUSCAR_PDIS;
+                dispose();
+            }
+        });
+        adminUpdatePDIButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                operation = RequisitionOperations.ATUALIZAR_PDI;
+                dispose();
+            }
+        });
+        adminDeletePDIButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                operation = RequisitionOperations.DELETAR_PDI;
+                dispose();
+            }
+        });
+        adminCreateSegmentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                operation = RequisitionOperations.CADASTRAR_SEGMENTO;
+                dispose();
+            }
+        });
+        adminSearchSegmentsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                operation = RequisitionOperations.BUSCAR_SEGMENTOS;
+                dispose();
+            }
+        });
+        adminUpdateSegmentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                operation = RequisitionOperations.ATUALIZAR_SEGMENTO;
+                dispose();
+            }
+        });
+        adminDeleteSegmentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                operation = RequisitionOperations.DELETAR_SEGMENTO;
                 dispose();
             }
         });

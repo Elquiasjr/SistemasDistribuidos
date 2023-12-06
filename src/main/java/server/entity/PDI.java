@@ -65,12 +65,6 @@ public class PDI {
         if(info.getNome() != null) {
             setNome(info.getNome());
         }
-        if(info.getX() != null) {
-            setX(info.getX());
-        }
-        if(info.getY() != null) {
-            setY(info.getY());
-        }
         if(info.getAviso() != null) {
             setAviso(info.getAviso());
         }
