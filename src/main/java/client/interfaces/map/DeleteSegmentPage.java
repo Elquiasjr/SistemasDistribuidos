@@ -20,7 +20,7 @@ public class DeleteSegmentPage extends JDialog {
 
     public DeleteSegmentPage(JFrame parent) {
         super(parent);
-        setTitle("Admin Create PDIr");
+        setTitle("Admin Delete Segment");
         setContentPane(deleteSegmentPanel);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);

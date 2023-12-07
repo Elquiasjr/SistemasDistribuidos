@@ -13,7 +13,7 @@ public interface RequisitionOperations {
     String BUSCAR_USUARIO = "BUSCAR_USUARIO";
     String DELETAR_USUARIO = "DELETAR_USUARIO";
 
-    // segunda entrega
+    // terceira entrega
 
     String CADASTRAR_PDI = "CADASTRAR_PDI";
 
@@ -31,6 +31,8 @@ public interface RequisitionOperations {
 
     String DELETAR_SEGMENTO = "DELETAR_SEGMENTO";
 
+    // quarta entrega
+    String BUSCAR_ROTA = "BUSCAR_ROTA";
 
 
 }

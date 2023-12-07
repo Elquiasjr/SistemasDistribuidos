@@ -27,7 +27,7 @@ public class UpdatePDIPage extends JDialog{
 
     public UpdatePDIPage(JFrame parent){
         super(parent);
-        setTitle("Admin Create PDIr");
+        setTitle("Admin Update PDI");
         setContentPane(updatePDIPanel);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);

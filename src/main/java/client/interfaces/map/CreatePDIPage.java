@@ -29,7 +29,7 @@ public class CreatePDIPage extends JDialog{
 
     public CreatePDIPage(JFrame parent){
         super(parent);
-        setTitle("Admin Create PDIr");
+        setTitle("Admin Create PDI");
         setContentPane(createPDIPanel);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);
@@ -44,7 +44,7 @@ public class CreatePDIPage extends JDialog{
                 pdiName = verify(nameField.getText());
                 pdiX = Double.parseDouble(xField.getText());
                 pdiY = Double.parseDouble(yField.getText());
-                pdiWarning = verify(warningField.getText());
+                pdiWarning = warningField.getText();
                 if(!noCheckBox.isSelected() && !yesCheckBox.isSelected()){
                     pdiAcessible = null;
                 }

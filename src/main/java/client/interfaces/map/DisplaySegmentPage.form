@@ -69,6 +69,8 @@
           </grid>
         </constraints>
         <properties>
+          <editable value="false"/>
+          <horizontalAlignment value="0"/>
           <text value=""/>
         </properties>
       </component>
@@ -93,7 +95,11 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="false"/>
+          <horizontalAlignment value="0"/>
+          <text value=""/>
+        </properties>
       </component>
       <component id="d0fe" class="javax.swing.JButton" binding="OKButton" default-binding="true">
         <constraints>

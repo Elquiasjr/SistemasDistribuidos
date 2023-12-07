@@ -1,4 +1,4 @@
-package client.interfaces.map;
+package server.interfaces;
 
 import lombok.Getter;
 
@@ -7,30 +7,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DeletePDIPage extends JDialog {
-    private JTextField idField;
-    private JButton doneButton;
-    private JPanel deletePDIPanel;
-    @Getter
-    private Long idPDI;
+public class PortPage extends JDialog {
+    private JButton OKButton;
+    private JTextField portField;
+    private JPanel portPage;
 
-    public DeletePDIPage(JFrame parent) {
+    @Getter
+    private Integer port;
+
+    public PortPage(JFrame parent){
         super(parent);
-        setTitle("Admin Delete PDI");
-        setContentPane(deletePDIPanel);
+        setTitle("Port Selection");
+        setContentPane(portPage);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-        doneButton.addActionListener(new ActionListener() {
+
+        OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
-                idPDI = Long.parseLong(idField.getText());
+                port = Integer.valueOf(portField.getText());
                 dispose();
             }
         });
         setVisible(true);
     }
 }
-

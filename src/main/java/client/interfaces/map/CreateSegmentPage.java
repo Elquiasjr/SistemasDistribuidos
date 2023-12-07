@@ -27,7 +27,7 @@ public class CreateSegmentPage extends JDialog{
 
     public CreateSegmentPage(JFrame parent){
         super(parent);
-        setTitle("Admin Create PDIr");
+        setTitle("Admin Create Segment");
         setContentPane(createSegmentPanel);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);
@@ -42,7 +42,7 @@ public class CreateSegmentPage extends JDialog{
 
                 initialPDI = Long.parseLong(initalPDIField.getText());
                 finalPDI = Long.parseLong(finalPDIField.getText());
-                pdiWarning = verify(warningField.getText());
+                pdiWarning = warningField.getText();
                 if(!noCheckBox.isSelected() && !yesCheckBox.isSelected()){
                     pdiAcessible = null;
                 }

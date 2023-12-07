@@ -14,7 +14,10 @@
             <preferred-size width="194" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="false"/>
+          <horizontalAlignment value="0"/>
+        </properties>
       </component>
       <component id="9d369" class="javax.swing.JTextField" binding="warningField">
         <constraints>
@@ -22,7 +25,10 @@
             <preferred-size width="194" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="false"/>
+          <horizontalAlignment value="0"/>
+        </properties>
       </component>
       <component id="c9e79" class="javax.swing.JTextField" binding="finalPDIField">
         <constraints>
@@ -30,7 +36,11 @@
             <preferred-size width="194" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="false"/>
+          <horizontalAlignment value="0"/>
+          <text value=""/>
+        </properties>
       </component>
       <component id="e1879" class="javax.swing.JTextField" binding="initialPDIField">
         <constraints>
@@ -38,7 +48,10 @@
             <preferred-size width="194" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <editable value="false"/>
+          <horizontalAlignment value="0"/>
+        </properties>
       </component>
       <component id="9ecb6" class="javax.swing.JButton" binding="OKButton" default-binding="true">
         <constraints>

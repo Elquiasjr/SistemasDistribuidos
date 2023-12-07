@@ -21,7 +21,6 @@ public class MessagePage extends JDialog{
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         type.setText(typeMessage);
         message.setText(textMessage);
-        System.out.println(textMessage.length());
         setMinimumSize(new Dimension(textMessage.length()*10, 150));
         setVisible(true);
     }

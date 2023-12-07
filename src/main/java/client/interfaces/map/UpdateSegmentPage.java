@@ -30,7 +30,7 @@ public class UpdateSegmentPage extends JDialog {
 
     public UpdateSegmentPage(JFrame parent){
         super(parent);
-        setTitle("Admin Update PDI");
+        setTitle("Admin Update Segment");
         setContentPane(updateSegmentPanel);
         setMinimumSize(new Dimension(500, 500));
         setModal(true);

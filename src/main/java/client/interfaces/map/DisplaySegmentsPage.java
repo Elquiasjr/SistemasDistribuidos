@@ -50,7 +50,7 @@ public class DisplaySegmentsPage extends JDialog{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if((i - 1) < 0){
-                    i = segments.size();
+                    i = segments.size()-1;
                 }else{
                     i = i - 1;
                 }
